@@ -1,0 +1,298 @@
+# ====================================================
+# FICHIER : convertisseur_date.py
+# PROGRAMME : Convertisseur de dates
+# AUTEUR : ADOUM OUMAR IDRISS
+# MATRICULE : 22A692FS
+# DATE : 2025-2026
+# ====================================================
+
+# ----------------------------------------------------
+# SECTION 1 : Importation des modules
+# ----------------------------------------------------
+# Aucune importation nécessaire, on utilise seulement Python standard
+
+# ----------------------------------------------------
+# SECTION 2 : Définition des fonctions
+# ----------------------------------------------------
+
+def verifier_annee_bissextile(annee):
+    """
+    Vérifie si une année est bissextile selon les règles du calendrier grégorien
+    Règles : Une année est bissextile si :
+    1. Elle est divisible par 4
+    2. Mais pas par 100 (sauf si divisible par 400)
+    """
+    # Vérifier si divisible par 400 (années comme 2000)
+    if annee % 400 == 0:
+        return True
+   
+    # Vérifier si divisible par 100 mais pas 400 (années comme 1900)
+    if annee % 100 == 0:
+        return False
+   
+    # Vérifier si divisible par 4 (années comme 2024)
+    if annee % 4 == 0:
+        return True
+   
+    # Si aucune condition n'est remplie, année non bissextile
+    return False
+
+def obtenir_jours_du_mois(mois, annee):
+    """
+    Retourne le nombre de jours dans un mois donné
+    Prend en compte les années bissextiles pour février
+    """
+    # Liste des jours pour chaque mois (index 0 = janvier, index 11 = décembre)
+    jours_par_mois = [31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31]
+   
+    # Si c'est février (mois 2) et année bissextile
+    if mois == 2 and verifier_annee_bissextile(annee):
+        return 29  # Février a 29 jours en année bissextile
+   
+    # Pour les autres mois, retourner le nombre de jours normal
+    # mois-1 car les listes en Python commencent à l'index 0
+    return jours_par_mois[mois - 1]
+
+def valider_date(date_str):
+    """
+    Valide une date au format AAAA-MM-JJ
+    Retourne True si la date est valide, False sinon avec un message d'erreur
+    """
+    # Vérifier que la date contient bien des tirets
+    if "-" not in date_str:
+        return False, "Le format doit être AAAA-MM-JJ avec des tirets"
+   
+    # Séparer la date en trois parties
+    parties = date_str.split("-")
+   
+    # Vérifier qu'il y a exactement 3 parties
+    if len(parties) != 3:
+        return False, "Format incorrect. Doit avoir 3 parties séparées par des tirets"
+   
+    # Extraire année, mois et jour
+    annee_str, mois_str, jour_str = parties
+   
+    # Vérifier que chaque partie ne contient que des chiffres
+    if not (annee_str.isdigit() and mois_str.isdigit() and jour_str.isdigit()):
+        return False, "L'année, le mois et le jour doivent être des nombres"
+   
+    # Convertir les chaînes en nombres entiers
+    try:
+        annee = int(annee_str)
+        mois = int(mois_str)
+        jour = int(jour_str)
+    except ValueError:
+        return False, "Erreur lors de la conversion en nombres"
+   
+    # Vérifier que l'année est positive
+    if annee < 1:
+        return False, "L'année doit être un nombre positif"
+   
+    # Vérifier que le mois est entre 1 et 12
+    if mois < 1 or mois > 12:
+        return False, f"Le mois doit être entre 1 et 12 (vous avez saisi {mois})"
+   
+    # Obtenir le nombre maximum de jours pour ce mois
+    jours_max = obtenir_jours_du_mois(mois, annee)
+   
+    # Vérifier que le jour est valide pour ce mois
+    if jour < 1 or jour > jours_max:
+        return False, f"Le jour {jour} est invalide pour le mois {mois}"
+   
+    # Si toutes les vérifications passent, la date est valide
+    return True, "Date valide"
+
+def convertir_date(date_str):
+    """
+    Convertit une date du format AAAA-MM-JJ en JJ/MM/AAAA
+    Suppose que la date a déjà été validée
+    """
+    # Séparer la date en parties
+    parties = date_str.split("-")
+    annee, mois, jour = parties
+   # MAHAMAT NOUR ZAKARIA 22B171FS
+    # Formater avec des zéros initiaux si nécessaire
+    # :02d signifie "formater comme un nombre avec 2 chiffres, ajouter des zéros si besoin"
+    # :04d signifie "formater comme un nombre avec 4 chiffres"
+    date_formatee = f"{int(jour):02d}/{int(mois):02d}/{int(annee):04d}"
+   
+    return date_formatee
+
+def afficher_menu():
+    """
+    Affiche le menu principal du programme
+    """
+    print("\n" + "="*60)
+    print(" " * 15 + "CONVERTISSEUR DE DATES")
+    print("="*60)
+    print("\n1. Convertir une date")
+    print("2. Voir des exemples")
+    print("3. À propos")
+    print("4. Quitter")
+    print("\n" + "-"*60)
+
+def afficher_exemples():
+    """
+    Affiche des exemples de conversion
+    """
+    print("\n" + "="*60)
+    print("EXEMPLES DE CONVERSION")
+    print("="*60)
+   
+    #HASSAN MBODOU ADAM 23A624FS
+    # Liste de dates à tester
+    dates_exemples = [
+        "2023-12-25",  # Noël 2023 - date valide
+        "2023-02-29",  # 29 février 2023 - invalide (non bissextile)
+        "2024-02-29",  # 29 février 2024 - valide (bissextile)
+        "2023-04-31",  # 31 avril 2023 - invalide (avril a 30 jours)
+        "2000-01-01",  # 1er janvier 2000 - valide
+    ]
+    #ISMAILA GADJERE 22A442FS
+    # Tester chaque date
+    for date in dates_exemples:
+        # Valider la date
+        valide, message = valider_date(date)
+       
+        if valide:
+            # Si valide, la convertir
+            resultat = convertir_date(date)
+            print(f"✓ {date}  →  {resultat}")
+        else:
+            # Si invalide, afficher l'erreur
+            print(f"✗ {date}  →  {message}")
+
+def afficher_a_propos():
+    """
+    #ADOUM OUMAR IDRISS
+   #Matricule:22A692FS
+    Affiche les informations sur le programme et l'auteur
+    """
+    print("\n" + "="*60)
+    print("À PROPOS")
+    print("="*60)
+    print("\n📅 Programme : Convertisseur de dates Python")
+    print("\n🎯 Objectif :")
+    print("   Convertir les dates du format international")
+    print("   AAAA-MM-JJ vers le format français JJ/MM/AAAA")
+    print("\n👨‍💻 Auteur :")
+    print("   Adoum Oumar Idriss")
+    print("   Matricule : 22A692FS")
+    print("\n🔧 Fonctionnalités :")
+    print("   • Validation complète des dates")
+    print("   • Gestion des années bissextiles")
+    print("   • Interface utilisateur simple")
+    print("   • Messages d'erreur clairs")
+    print("\n💻 Technologies :")
+    print("   • Python 3 (sans bibliothèques externes)")
+    print("="*60)
+   
+    # Attendre que l'utilisateur appuie sur Entrée
+    input("\nAppuyez sur Entrée pour continuer...")
+
+def traiter_conversion():
+    """
+    Demande une date à l'utilisateur et la convertit
+    """
+    print("\n" + "="*60)
+    print("CONVERSION DE DATE")
+    print("="*60)
+   
+    # Demander la date à l'utilisateur
+    date_input = input("\nEntrez une date (format AAAA-MM-JJ) : ")
+   
+    # Valider la date
+    valide, message = valider_date(date_input)
+   
+    # Afficher le résultat
+    print("\n" + "-"*60)
+    if valide:
+        # Si la date est valide, la convertir
+        date_convertie = convertir_date(date_input)
+        print("✅ CONVERSION RÉUSSIE")
+        print(f"   Date originale : {date_input}")
+        print(f"   Date convertie : {date_convertie}")
+    else:
+        # Si la date est invalide, afficher l'erreur
+        print("❌ ERREUR DE CONVERSION")
+        print(f"   {message}")
+    print("-"*60)
+   
+    # Attendre que l'utilisateur appuie sur Entrée
+    input("\nAppuyez sur Entrée pour continuer...")
+
+# ----------------------------------------------------
+# SECTION 3 : Programme principal
+#ADOUM OUMAR IDRISS
+#Matricule:22A692FS
+# ----------------------------------------------------
+
+def main():
+    """
+    Fonction principale qui contrôle le déroulement du programme
+    """
+    # Afficher la bannière de bienvenue
+    print("\n" + "="*60)
+    print(" " * 10 + "BIENVENUE DANS LE CONVERTISSEUR DE DATES")
+    print(" " * 15 + "Par Adoum Oumar Idriss")
+    print(" " * 20 + "Matricule : 22A692FS")
+    print("="*60)
+   
+    # Boucle principale du programme
+    while True:
+        # Afficher le menu
+        afficher_menu()
+       
+        # Demander le choix de l'utilisateur
+        choix = input("Votre choix (1-4) : ")
+       
+        # Traiter le choix
+        if choix == "1":
+            # Option 1 : Convertir une date
+            traiter_conversion()
+       
+        elif choix == "2":
+            # Option 2 : Voir des exemples
+            afficher_exemples()
+       
+        elif choix == "3":
+            # Option 3 : À propos
+            afficher_a_propos()
+       
+        elif choix == "4":
+            # Option 4 : Quitter le programme
+            print("\n" + "="*60)
+            print("MERCI D'AVOIR UTILISÉ LE CONVERTISSEUR !")
+            print("À bientôt !")
+            print("="*60)
+            break  # Sortir de la boucle
+       
+        else:
+            # Choix invalide
+            print("\n⚠️  Choix invalide. Veuillez saisir 1, 2, 3 ou 4.")
+            input("Appuyez sur Entrée pour continuer...")
+
+# ----------------------------------------------------
+# SECTION 4 : Point d'entrée du programme
+# ----------------------------------------------------
+
+if __name__ == "__main__":
+    """
+    Ce code ne s'exécute que si le fichier est lancé directement
+    (et non importé comme module)
+    """
+    try:
+        # Lancer le programme principal
+        main()
+    except KeyboardInterrupt:
+        # Gérer l'interruption par Ctrl+C
+        print("\n\n⚠️  Programme interrompu par l'utilisateur.")
+    finally:
+        # Message de fin (toujours affiché)
+        print("\n" + "="*60)
+        print("PROGRAMME TERMINÉ")
+        print("="*60)
+
+# ====================================================
+# FIN DU PROGRAMME
+# ====================================================

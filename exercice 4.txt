@@ -1,0 +1,444 @@
+#!/usr/bin/env python3
+# -*- coding: utf-8 -*-
+# ADOUM OUMAR IDRISS
+#Matricule: 22A692FS
+"""
+Programme de détection de palindromes numériques et textuels
+Exercice 4 : Réversibilité de nombres
+"""
+
+# Définition de la fonction principale pour trouver les palindromes dans une liste
+def trouver_palindromes_numeriques(liste_nombres):
+    """
+    Cette fonction prend une liste de nombres en paramètre
+    et retourne une nouvelle liste contenant uniquement les palindromes
+    """
+    # Création d'une liste vide pour stocker les résultats
+    palindromes = []
+   
+    # Boucle pour parcourir chaque élément de la liste d'entrée
+    for nombre in liste_nombres:
+        # Conversion du nombre en chaîne de caractères pour manipulation
+        nombre_str = str(nombre)
+       
+        # Inversion de la chaîne en utilisant le slicing [::-1]
+        nombre_inverse = nombre_str[::-1]
+       
+        # Comparaison entre la chaîne originale et la chaîne inversée
+        if nombre_str == nombre_inverse:
+            # Si elles sont identiques, c'est un palindrome
+            # On l'ajoute donc à la liste des résultats
+            palindromes.append(nombre)
+   
+    # Retour de la liste finale contenant tous les palindromes trouvés
+    return palindromes
+
+# Fonction pour vérifier si un seul nombre est un palindrome
+def est_palindrome_nombre(nombre):
+    """
+    Vérifie si un nombre donné est un palindrome
+    Retourne True si c'est le cas, False sinon
+    """
+    # Conversion du nombre en chaîne de caractères
+    nombre_str = str(nombre)
+   
+    # Comparaison avec sa version inversée
+    # Retourne True si égalité, False sinon
+    return nombre_str == nombre_str[::-1]
+
+# Fonction pour vérifier si une chaîne de caractères est un palindrome
+def est_palindrome_chaine(chaine):
+    """
+    Vérifie si une chaîne de caractères est un palindrome
+    Ignore la casse et les espaces
+    """
+    # Conversion en minuscules pour ignorer la casse
+    chaine_minuscule = chaine.lower()
+   
+    # Suppression des espaces pour les phrases
+    chaine_sans_espaces = chaine_minuscule.replace(" ", "")
+   
+    # Comparaison avec sa version inversée
+    # Retourne True si égalité, False sinon
+    return chaine_sans_espaces == chaine_sans_espaces[::-1]
+
+# Fonction pour afficher le menu principal
+def afficher_menu():
+    """
+    Affiche le menu principal du programme
+    avec toutes les options disponibles
+    """
+    # Ligne de séparation visuelle
+    print("\n" + "=" * 60)
+   
+    # Titre du menu
+    print("MENU PRINCIPAL - DÉTECTEUR DE PALINDROMES")
+   
+    # Ligne de séparation visuelle
+    print("=" * 60)
+   
+    # Affichage des options disponibles
+    print("\nChoisissez une option:")
+    print("1. Vérifier si un nombre est un palindrome")
+    print("2. Vérifier si un texte est un palindrome")
+    print("3. Analyser une liste de nombres")
+    print("4. Voir des exemples prédéfinis")
+    print("5. Exécuter les tests unitaires")
+    print("6. Quitter le programme")
+   
+    # Ligne de séparation visuelle
+    print("=" * 60)
+
+# Fonction pour l'option 1 : vérifier un nombre
+def option_verifier_nombre():
+    """
+    Option 1 du menu : permet à l'utilisateur
+    de tester si un nombre est un palindrome
+    """
+    # En-tête de l'option
+    print("\n" + "=" * 40)
+    print("VÉRIFICATION D'UN NOMBRE")
+    print("=" * 40)
+   
+    # Boucle principale de cette option
+    while True:
+        # Demande à l'utilisateur d'entrer un nombre
+        nombre = input("\nEntrez un nombre (ou 'q' pour quitter) : ")
+       
+        # Vérification si l'utilisateur veut quitter
+        if nombre.lower() == 'q':
+            # Message de retour au menu principal
+            print("Retour au menu principal...")
+            # Sortie de la boucle
+            break
+       
+        # Gestion des erreurs de saisie
+        try:
+            # Vérification que l'entrée est bien un nombre
+            # en tentant de la convertir en entier
+            int(nombre)
+           
+            # Test si c'est un palindrome
+            if est_palindrome_nombre(nombre):
+                # Message positif
+                print(">>> RÉSULTAT : " + nombre + " EST un palindrome !")
+                # Explication détaillée
+                print("   Voilà " + nombre + " = " + nombre[::-1])
+            else:
+                # Message négatif
+                print(">>> RÉSULTAT : " + nombre + " N'EST PAS un palindrome")
+                # Explication détaillée
+                print("   Voilà " + nombre + " != " + nombre[::-1])
+               
+        # Gestion de l'exception si l'entrée n'est pas un nombre
+        except ValueError:
+            # Message d'erreur
+            print("ERREUR : Veuillez entrer un nombre valide !")
+
+# Fonction pour l'option 2 : vérifier une chaîne
+def option_verifier_chaine():
+    """
+    Option 2 du menu : permet à l'utilisateur
+    de tester si un texte est un palindrome
+    """
+    # En-tête de l'option
+    print("\n" + "=" * 40)
+    print("VÉRIFICATION D'UN TEXTE")
+    print("=" * 40)
+   
+    # Information pour l'utilisateur
+    print("(Les majuscules et espaces sont ignorés)")
+   
+    # Boucle principale de cette option
+    while True:
+        # Demande à l'utilisateur d'entrer un texte
+        chaine = input("\nEntrez un texte (ou 'q' pour quitter) : ")
+       
+        # Vérification si l'utilisateur veut quitter
+        if chaine.lower() == 'q':
+            # Message de retour au menu principal
+            print("Retour au menu principal...")
+            # Sortie de la boucle
+            break
+       
+        # Préparation de la chaîne pour la comparaison
+        # Conversion en minuscules
+        chaine_minuscule = chaine.lower()
+        # Suppression des espaces
+        chaine_sans_espaces = chaine_minuscule.replace(" ", "")
+       
+        # Test si c'est un palindrome
+        if est_palindrome_chaine(chaine):
+            # Message positif
+            print(">>> RÉSULTAT : '" + chaine + "' EST un palindrome !")
+            # Explication détaillée
+            print("   Voilà '" + chaine_sans_espaces + "' se lit '" + chaine_sans_espaces[::-1] + "' à l'envers")
+        else:
+            # Message négatif
+            print(">>> RÉSULTAT : '" + chaine + "' N'EST PAS un palindrome")
+            # Explication détaillée
+            print("   Voilà '" + chaine_sans_espaces + "' != '" + chaine_sans_espaces[::-1] + "'")
+
+# Fonction pour l'option 3 : analyser une liste
+def option_analyser_liste():
+    """
+    Option 3 du menu : permet à l'utilisateur
+    d'analyser une liste complète de nombres
+    """
+    # En-tête de l'option
+    print("\n" + "=" * 40)
+    print("ANALYSE D'UNE LISTE DE NOMBRES")
+    print("=" * 40)
+   
+    # Instructions pour l'utilisateur
+    print("Entrez plusieurs nombres séparés par des espaces")
+    print("Exemple : 121 123 456 789 12321")
+   
+    # Boucle principale de cette option
+    while True:
+        # Demande à l'utilisateur d'entrer sa liste
+        entree = input("\nVotre liste (ou 'q' pour quitter) : ")
+       
+        # Vérification si l'utilisateur veut quitter
+        if entree.lower() == 'q':
+            # Message de retour au menu principal
+            print("Retour au menu principal...")
+            # Sortie de la boucle
+            break
+       
+        # Gestion des erreurs de saisie
+        try:
+            # Vérification si l'entrée n'est pas vide
+            if not entree.strip():
+                # Message d'erreur pour liste vide
+                print("Liste vide ! Veuillez entrer des nombres.")
+                # Retour au début de la boucle
+                continue
+           
+            # Conversion de la chaîne en liste de nombres
+            # Séparation par les espaces
+            nombres_textes = entree.split()
+            # Conversion de chaque élément en entier
+            nombres = [int(x) for x in nombres_textes]
+           
+            # Recherche des palindromes dans la liste
+            palindromes = trouver_palindromes_numeriques(nombres)
+           
+            # Affichage des résultats
+            print("\n>>> RÉSULTATS :")
+            # Liste originale
+            print("Liste analysée : " + str(nombres))
+            # Palindromes trouvés
+            print("Palindromes trouvés : " + str(palindromes))
+            # Nombre de palindromes
+            print("Nombre de palindromes : " + str(len(palindromes)))
+           
+            # Affichage détaillé si des palindromes ont été trouvés
+            if palindromes:
+                print("\nDétail des palindromes :")
+                # Parcours de chaque palindrome
+                for p in palindromes:
+                    # Affichage de la vérification
+                    print("  " + str(p) + " -> " + str(p) + " = " + str(p)[::-1])
+                   
+        # Gestion de l'exception si l'entrée contient autre chose que des nombres
+        except ValueError:
+            # Message d'erreur
+            print("ERREUR : Veuillez n'entrer que des nombres séparés par des espaces !")
+
+# Fonction pour l'option 4 : afficher des exemples
+def option_exemples():
+    """
+    Option 4 du menu : affiche des exemples
+    de palindromes et de non-palindromes
+    """
+    # En-tête de l'option
+    print("\n" + "=" * 40)
+    print("EXEMPLES PRÉDÉFINIS")
+    print("=" * 40)
+   
+    # Section 1 : nombres palindromes
+    print("\n1. Nombres palindromes :")
+    # Liste d'exemples de nombres palindromes
+    exemples_nombres = [121, 12321, 45654, 1, 22, 333, 4444, 123454321]
+    # Parcours de chaque exemple
+    for n in exemples_nombres:
+        # Vérification (toujours vraie pour cette liste)
+        if est_palindrome_nombre(n):
+            # Affichage formaté avec alignement
+            print("  " + str(n).ljust(10) + " -> " + str(n) + " = " + str(n)[::-1] + " (PALINDROME)")
+   
+    # Section 2 : nombres non palindromes
+    print("\n2. Nombres NON palindromes :")
+    # Liste d'exemples de nombres non palindromes
+    non_palindromes = [123, 456, 789, 10, 1234, 56789]
+    # Parcours de chaque exemple
+    for n in non_palindromes:
+        # Affichage formaté avec alignement
+        print("  " + str(n).ljust(10) + " -> " + str(n) + " != " + str(n)[::-1] + " (NON)")
+   
+    # Section 3 : chaînes palindromes
+    print("\n3. Chaînes palindromes :")
+    # Liste d'exemples de textes palindromes
+    chaines_pal = ["radar", "level", "kayak", "ete", "ressasser", "laval"]
+    # Parcours de chaque exemple
+    for c in chaines_pal:
+        # Préparation de la chaîne
+        chaine_simple = c.lower().replace(" ", "")
+        # Affichage formaté avec alignement
+        print("  '" + c.ljust(15) + "' -> " + chaine_simple + " = " + chaine_simple[::-1] + " (PALINDROME)")
+   
+    # Section 4 : chaînes non palindromes
+    print("\n4. Chaînes NON palindromes :")
+    # Liste d'exemples de textes non palindromes
+    chaines_non = ["python", "hello", "world", "bonjour", "programmation"]
+    # Parcours de chaque exemple
+    for c in chaines_non:
+        # Préparation de la chaîne
+        chaine_simple = c.lower().replace(" ", "")
+        # Affichage formaté avec alignement
+        print("  '" + c.ljust(15) + "' -> " + chaine_simple + " != " + chaine_simple[::-1] + " (NON)")
+
+# Fonction pour l'option 5 : exécuter les tests
+def option_tests_unitaires():
+    """
+    Option 5 du menu : exécute une série
+    de tests unitaires pour valider le programme
+    """
+    # En-tête de l'option
+    print("\n" + "=" * 40)
+    print("TESTS UNITAIRES")
+    print("=" * 40)
+   
+    # Test 1 : cas de base
+    print("\nTest 1 - Cas de base :")
+    # Données de test
+    test1 = [121, 123, 12321, 45654, 789, 1, 22, 333, 4444]
+    # Résultat obtenu
+    resultat1 = trouver_palindromes_numeriques(test1)
+    # Résultat attendu
+    attendu1 = [121, 12321, 45654, 1, 22, 333, 4444]
+    # Affichage des informations
+    print("Liste : " + str(test1))
+    print("Attendu : " + str(attendu1))
+    print("Obtenu : " + str(resultat1))
+    # Vérification du résultat
+    if resultat1 == attendu1:
+        print("STATUT : RÉUSSI")
+    else:
+        print("STATUT : ÉCHEC")
+   
+    # Test 2 : liste vide
+    print("\nTest 2 - Liste vide :")
+    # Données de test (liste vide)
+    test2 = []
+    # Résultat obtenu
+    resultat2 = trouver_palindromes_numeriques(test2)
+    # Résultat attendu (liste vide)
+    attendu2 = []
+    # Affichage des informations
+    print("Liste : " + str(test2))
+    print("Attendu : " + str(attendu2))
+    print("Obtenu : " + str(resultat2))
+    # Vérification du résultat
+    if resultat2 == attendu2:
+        print("STATUT : RÉUSSI")
+    else:
+        print("STATUT : ÉCHEC")
+   
+    # Test 3 : grands nombres
+    print("\nTest 3 - Grands nombres :")
+    # Données de test (grands nombres)
+    test3 = [123454321, 1000001, 9999999, 123456789]
+    # Résultat obtenu
+    resultat3 = trouver_palindromes_numeriques(test3)
+    # Résultat attendu
+    attendu3 = [123454321, 1000001, 9999999]
+    # Affichage des informations
+    print("Liste : " + str(test3))
+    print("Attendu : " + str(attendu3))
+    print("Obtenu : " + str(resultat3))
+    # Vérification du résultat
+    if resultat3 == attendu3:
+        print("STATUT : RÉUSSI")
+    else:
+        print("STATUT : ÉCHEC")
+   
+    # Fin des tests
+    print("\n" + "=" * 40)
+    print("TESTS TERMINÉS")
+
+# Fonction principale du programme
+def programme_principal():
+    """
+    Fonction principale qui gère le flux
+    général du programme et le menu principal
+    """
+    # En-tête du programme
+    print("=" * 60)
+    print("BIENVENUE DANS LE DÉTECTEUR DE PALINDROMES")
+    print("Exercice 4 : Réversibilité de nombres")
+    print("=" * 60)
+   
+    # Boucle principale du programme
+    while True:
+        # Affichage du menu
+        afficher_menu()
+       
+        # Gestion des erreurs générales
+        try:
+            # Demande du choix à l'utilisateur
+            choix = input("\nVotre choix (1-6) : ").strip()
+           
+            # Traitement du choix 1
+            if choix == "1":
+                option_verifier_nombre()
+           
+            # Traitement du choix 2
+            elif choix == "2":
+                option_verifier_chaine()
+           
+            # Traitement du choix 3
+            elif choix == "3":
+                option_analyser_liste()
+           
+            # Traitement du choix 4
+            elif choix == "4":
+                option_exemples()
+           
+            # Traitement du choix 5
+            elif choix == "5":
+                option_tests_unitaires()
+           
+            # Traitement du choix 6 (quitter)
+            elif choix == "6":
+                # Message de fin
+                print("\n" + "=" * 60)
+                print("MERCI D'AVOIR UTILISÉ NOTRE PROGRAMME !")
+                print("AU REVOIR !")
+                print("=" * 60)
+                # Sortie de la boucle principale
+                break
+           
+            # Traitement d'un choix invalide
+            else:
+                # Message d'erreur
+                print("\nERREUR : Choix invalide ! Veuillez choisir entre 1 et 6.")
+               
+        # Gestion de l'interruption par l'utilisateur (Ctrl+C)
+        except KeyboardInterrupt:
+            # Message d'interruption
+            print("\n\nProgramme interrompu par l'utilisateur.")
+            # Sortie de la boucle principale
+            break
+       
+        # Gestion de toute autre exception
+        except Exception as e:
+            # Message d'erreur générique
+            print("\nUne erreur est survenue : " + str(e))
+
+# Point d'entrée principal du programme
+# Cette condition est vraie uniquement quand le fichier est exécuté directement
+if __name__ == "__main__":
+    # Lancement du programme principal
+    programme_principal()
