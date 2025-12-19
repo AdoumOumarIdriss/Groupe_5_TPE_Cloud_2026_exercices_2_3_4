@@ -1,12 +1,20 @@
 Les membres des groupes
+
 ADOUM OUMAR IDRISS 22A692FS
+
 MAHAMAT NOUR ZAKARIA 22B171FS
+
 SOULEYMAN MAHAMAT TAHIR 23A169FS
+
 HASSAN MBODOU ADAM 23A624FS
+
 ISMAILA GADJERE 22A442FS
+
 AYOUB AHMAT HAMAT 22A406FS
+
 ISSA ABAKAR ISSA 22A406FS
- 	EXERCICE 2
+
+	EXERCICE 2
 # 🔍 Détecteur de Doublons Python
 
 <div align="center">
@@ -203,4 +211,5 @@ Git clone [URL_DU_REPO]
 Cd palindrome-numerique
 
 # 3. Aucune dépendance requise !
+
 
